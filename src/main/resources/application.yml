@@ -1,0 +1,26 @@
+## Spring related settings ##
+spring:
+  application:
+    name: base64-diff
+  jpa:
+    hibernate:
+      ddl-auto: update    # For sake of simplicity and avoiding the use of liquibase or flyway
+      use-new-id-generator-mappings: true   # Use the new AUTO id generator of hibernate
+
+---
+
+## Datasource related settings ##
+# In production mode the app will store the database in a file under the USER HOME directory
+# The username and password can be stored in env variables H2_USER and H2_PASS. If not present the default are used
+spring:
+  datasource:
+    url: jdbc:h2:file:${user.home}/${spring.application.name}
+    username: ${H2_USER:user}
+    password: ${H2_PASS:pass1234!}
+    driver-class-name: org.h2.Driver
+    type: com.zaxxer.hikari.HikariDataSource
+
+## Container related settings ##
+# The application runs on the default http port 80
+server:
+  port: 80

@@ -1,0 +1,46 @@
+buildscript {
+    ext {
+        springBootVersion = '2.0.3.RELEASE'
+    }
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+
+group = 'eu.xyan.demo'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = 1.8
+
+// Enforce Java 8+
+assert System.properties['java.specification.version'] >= '1.8'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile('org.springframework.boot:spring-boot-starter-data-jpa')
+    compile('org.springframework.boot:spring-boot-starter-web')
+
+    // Uncomment for Java 9+ compatibility
+    // compile('javax.xml.bind:jaxb-api:2.3.0')
+
+    compileOnly('org.projectlombok:lombok')
+
+    runtime('com.h2database:h2')
+    runtime('com.zaxxer:HikariCP')
+
+    testCompile('org.springframework.boot:spring-boot-starter-test')
+    testCompile('org.springframework.restdocs:spring-restdocs-mockmvc')
+}
+
+// Needed for running the bootRun passing the properties. I.e: -Dspring.profiles.active=dev
+bootRun { systemProperties = System.properties }
